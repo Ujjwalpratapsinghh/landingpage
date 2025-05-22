@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Semicom - Semiconductor Excellence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    .hero-bg {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      animation: float 10s infinite ease-in-out;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); opacity: 0.3; }
+      50% { transform: translateY(-20px); opacity: 0.6; }
+    }
+    .hero-text {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+    .hero-text.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .flip-card {
+      perspective: 1000px;
+      height: 200px;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+    .flip-card-front {
+      background-color: #f9fafb;
+    }
+    .flip-card-back {
+      background-color: #dbeafe;
+      transform: rotateY(180deg);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+    }
+    .modal-content {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .underline-hover:hover {
+      text-decoration: underline;
+    }
+    /* Enhanced Header Styles */
+    header {
+      background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+      color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    header:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    .nav-link {
+      position: relative;
+      padding-bottom: 2px;
+      transition: color 0.3s ease;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: white;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .nav-link:hover {
+      color: #e0f2fe;
+    }
+    .menu-button {
+      transition: transform 0.3s ease;
+    }
+    .menu-button:hover {
+      transform: scale(1.2);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <!-- Header -->
+  <header class="py-4 px-6 flex justify-between items-center shadow-sm sticky top-0 z-10">
+    <div class="flex items-center">
+      <h1 class="text-2xl font-bold">Semicom</h1>
+    </div>
+    <nav class="hidden md:flex space-x-6">
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#contact" class="nav-link" onclick="openModal()">Contact</a>
+    </nav>
+    <button class="md:hidden text-2xl menu-button" onclick="toggleMenu()">☰</button>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white py-4 px-6 shadow-sm">
+    <a href="#services" class="block py-2 text-gray-600 hover:text-gray-900 underline-hover">Services</a>
+    <a href="#contact" class="block py-2 text-gray-600 hover:text-gray-900 underline-hover" onclick="openModal()">Contact</a>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-bg min-h-screen flex flex-col justify-center items-center text-center px-6 text-white relative">
+    <div class="particles" id="particles"></div>
+    <div class="hero-text">
+      <h1 class="text-5xl md:text-6xl font-bold mb-4">Semicom</h1>
+      <p class="text-lg md:text-xl mb-8 max-w-lg">Your Gateway to Semiconductor Excellence</p>
+      <a href="#services" class="bg-white text-blue-600 py-3 px-8 rounded-full hover:bg-gray-200 transition-colors shadow-lg">Discover Services</a>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="py-16 px-6 bg-white">
+    <h2 class="text-3xl md:text-4xl font-semibold text-center mb-12">Our Services</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front text-gray-900">
+            <i class="fas fa-newspaper text-blue-600 text-2xl mb-3"></i>
+            <h3 class="text-xl font-semibold">Semiconductor News</h3>
+          </div>
+          <div class="flip-card-back text-gray-900">
+            <p>Latest trends and updates in the semiconductor industry.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front text-gray-900">
+            <i class="fas fa-trophy text-blue-600 text-2xl mb-3"></i>
+            <h3 class="text-xl font-semibold">Recognition Section</h3>
+          </div>
+          <div class="flip-card-back text-gray-900">
+            <p>Celebrating achievements in the semiconductor community.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front text-gray-900">
+            <i class="fas fa-users text-blue-600 text-2xl mb-3"></i>
+            <h3 class="text-xl font-semibold">Networking and Mentorship</h3>
+          </div>
+          <div class="flip-card-back text-gray-900">
+            <p>Connect with industry leaders and mentors.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front text-gray-900">
+            <i class="fas fa-briefcase text-blue-600 text-2xl mb-3"></i>
+            <h3 class="text-xl font-semibold">Talent Recruitment</h3>
+          </div>
+          <div class="flip-card-back text-gray-900">
+            <p>Find top talent for your semiconductor projects.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front text-gray-900">
+            <i class="fas fa-video text-blue-600 text-2xl mb-3"></i>
+            <h3 class="text-xl font-semibold">Virtual Events and Webinars</h3>
+          </div>
+          <div class="flip-card-back text-gray-900">
+            <p>Learn from experts through online events.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front text-gray-900">
+            <i class="fas fa-lightbulb text-blue-600 text-2xl mb-3"></i>
+            <h3 class="text-xl font-semibold">Semiconductor Innovation Challenges</h3>
+          </div>
+          <div class="flip-card-back text-gray-900">
+            <p>Push the boundaries of semiconductor technology.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front text-gray-900">
+            <i class="fas fa-rocket text-blue-600 text-2xl mb-3"></i>
+            <h3 class="text-xl font-semibold">Startup Support Section</h3>
+          </div>
+          <div class="flip-card-back text-gray-900">
+            <p>Resources to launch your semiconductor startup.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front text-gray-900">
+            <i class="fas fa-gamepad text-blue-600 text-2xl mb-3"></i>
+            <h3 class="text-xl font-semibold">Gamified Features</h3>
+          </div>
+          <div class="flip-card-back text-gray-900">
+            <p>Engage with interactive learning experiences.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front text-gray-900">
+            <i class="fas fa-flask text-blue-600 text-2xl mb-3"></i>
+            <h3 class="text-xl font-semibold">Collaborative Research Space</h3>
+          </div>
+          <div class="flip-card-back text-gray-900">
+            <p>Innovate with others in a shared research environment.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front text-gray-900">
+            <i class="fas fa-handshake text-blue-600 text-2xl mb-3"></i>
+            <h3 class="text-xl font-semibold">Startup Collaboration Zone</h3>
+          </div>
+          <div class="flip-card-back text-gray-900">
+            <p>Partner with startups to bring ideas to life.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front text-gray-900">
+            <i class="fas fa-landmark text-blue-600 text-2xl mb-3"></i>
+            <h3 class="text-xl font-semibold">Government Policies and Schemes</h3>
+          </div>
+          <div class="flip-card-back text-gray-900">
+            <p>Access information on supportive policies.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Modal -->
+  <div id="contact-modal" class="modal">
+    <div class="modal-content text-gray-900">
+      <span class="close-modal" onclick="closeModal()">×</span>
+      <h2 class="text-2xl font-semibold mb-4">Contact Us</h2>
+      <form>
+        <div class="mb-4">
+          <label for="name" class="block text-sm font-medium mb-1">Name</label>
+          <input type="text" id="name" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600" required>
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium mb-1">Email</label>
+          <input type="email" id="email" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600" required>
+        </div>
+        <div class="mb-4">
+          <label for="message" class="block text-sm font-medium mb-1">Message</label>
+          <textarea id="message" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="contact" class="bg-gray-50 py-6 px-6 text-center border-t">
+    <img src="semicom.png" alt="Semicom Logo" class="h-8 mx-auto mb-4">
+    <p class="text-gray-600 mb-2">Contact us at <a href="mailto:info@semicom.in" class="text-blue-600 underline-hover">info@semicom.in</a></p>
+    <p class="text-gray-500 text-sm">© 2025 Semicom. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Mobile Menu Toggle
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Smooth Scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Particle Animation in Hero Section
+    const particleContainer = document.getElementById('particles');
+    const particleCount = 20;
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      particle.style.width = `${Math.random() * 5 + 2}px`;
+      particle.style.height = particle.style.width;
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.top = `${Math.random() * 100}%`;
+      particle.style.animationDelay = `${Math.random() * 5}s`;
+      particleContainer.appendChild(particle);
+    }
+
+    // Hero Text Animation on Load
+    window.addEventListener('load', () => {
+      document.querySelector('.hero-text').classList.add('visible');
+    });
+
+    // Modal Functionality
+    function openModal() {
+      document.getElementById('contact-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('contact-modal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('contact-modal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    };
+
+    // Form Submission (Placeholder)
+    document.querySelector('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Message sent! We will get back to you soon.');
+      closeModal();
+    });
+  </script>
+</body>
+</html>
